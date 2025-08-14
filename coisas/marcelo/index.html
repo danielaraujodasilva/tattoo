@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt-BR" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Juiz Arbitral - Perfil Profissional</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Google Fonts (Poppins) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f8f9fa;
+      scroll-behavior: smooth;
+      padding-top: 70px; /* para navbar fixa */
+    }
+    /* Navbar custom */
+    .navbar-dark .navbar-nav .nav-link.active {
+      color: #ffd54f;
+      font-weight: 700;
+    }
+    .navbar-dark .navbar-nav .nav-link:hover {
+      color: #fff176;
+    }
+    /* Header */
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 5rem 1rem 4rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      border-radius: 0 0 40px 40px;
+      box-shadow: 0 8px 15px rgb(0 0 0 / 0.2);
+    }
+    header h1 {
+      font-weight: 700;
+      letter-spacing: 2px;
+      font-size: 3rem;
+      margin-bottom: 0.6rem;
+      text-shadow: 0 2px 8px rgb(0 0 0 / 0.4);
+    }
+    header p {
+      font-size: 1.3rem;
+      font-weight: 500;
+      max-width: 700px;
+      margin: 0 auto;
+      color: #ced4da;
+      text-shadow: 0 1px 5px rgb(0 0 0 / 0.25);
+    }
+    /* Section titles */
+    .section-title {
+      color: #1a237e;
+      border-bottom: 4px solid #3949ab;
+      padding-bottom: 0.4rem;
+      margin-bottom: 1.8rem;
+      font-weight: 700;
+      font-size: 1.9rem;
+      letter-spacing: 1px;
+    }
+    /* Cards hover effect */
+    .card:hover {
+      box-shadow: 0 12px 25px rgb(0 0 0 / 0.15);
+      transform: translateY(-5px);
+      transition: all 0.3s ease;
+    }
+    /* List group styling */
+    .list-group-item {
+      border-left: 5px solid #3949ab;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      background: #fff;
+      transition: background-color 0.25s ease;
+    }
+    .list-group-item:hover {
+      background-color: #f1f3ff;
+    }
+    /* Contact form */
+    #formContato .form-control:focus {
+      border-color: #3949ab;
+      box-shadow: 0 0 8px #3949abaa;
+    }
+    #btnSubmit {
+      background-color: #3949ab;
+      border: none;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    #btnSubmit:hover {
+      background-color: #1a237e;
+    }
+    /* Footer */
+    footer {
+      background: #212529;
+      color: #adb5bd;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      margin-top: 4rem;
+    }
+    footer a {
+      color: #adb5bd;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    footer a:hover {
+      color: #fff;
+    }
+    /* Back to top button */
+    #btnTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: none;
+      background-color: #3949ab;
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      color: white;
+      font-size: 1.8rem;
+      cursor: pointer;
+      z-index: 1050;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+    }
+    #btnTop:hover {
+      background-color: #1a237e;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-3" href="#">Juiz Arbitral</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav fs-5">
+          <li class="nav-item">
+            <a class="nav-link active" href="#apresentacao">Apresentação</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#competencias">Competências</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#destaques">Destaques</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#depoimentos">Depoimentos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contato">Contato</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header>
+    <h1>Juiz Arbitral & Advogado Especializado</h1>
+    <p>Profissional com 25 anos de experiência nas áreas de Direito Civil, Trabalhista e Criminal, focado em soluções jurídicas estratégicas, ética e excelência na resolução de conflitos.</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Apresentação -->
+    <section id="apresentacao" class="mb-5">
+      <h2 class="section-title">Apresentação</h2>
+      <p class="fs-5">
+        Advogado atuante e especializado em Transportes e Seguros, com ampla experiência em Direito Cível, Trabalhista e Criminal. Atuando na resolução de conflitos, consultorias jurídicas e defesa de interesses, prezando sempre pela ética e excelência.
+      </p>
+      <p class="fs-5">
+        Experiência consolidada em casos de contratos, indenizações, responsabilidade civil, audiências trabalhistas, ações rescisórias, processos criminais e elaboração de peças processuais e pareceres jurídicos.
+      </p>
+    </section>
+
+    <!-- Competências -->
+    <section id="competencias" class="mb-5">
+      <h2 class="section-title">Principais Competências</h2>
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+          <div class="card shadow-sm h-100 border-primary">
+            <div class="card-body">
+              <h5 class="card-title text-primary">Visão Estratégica e Gestão de Negócios</h5>
+              <p class="card-text">Orientado para resultados, com foco no crescimento organizacional.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm h-100 border-primary">
+            <div class="card-body">
+              <h5 class="card-title text-primary">Liderança e Formação de Equipes</h5>
+              <p class="card-text">Coordenação e motivação de equipes multifuncionais para alto desempenho.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm h-100 border-primary">
+            <div class="card-body">
+              <h5 class="card-title text-primary">Negociação e Relacionamento</h5>
+              <p class="card-text">Habilidade em negociar com diversos perfis, do operacional à alta direção.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm h-100 border-primary">
+            <div class="card-body">
+              <h5 class="card-title text-primary">Prevenção de Perdas e Gerenciamento de Riscos</h5>
+              <p class="card-text">Implantação de centrais de monitoramento para redução de custos e aumento da segurança.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm h-100 border-primary">
+            <div class="card-body">
+              <h5 class="card-title text-primary">Domínio Avançado em Sistemas Processuais</h5>
+              <p class="card-text">Experiência com PJe, e-SAJ, PROJUDI e outros.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm h-100 border-primary">
+            <div class="card-body">
+              <h5 class="card-title text-primary">Atualização Contínua</h5>
+              <p class="card-text">Manutenção constante do conhecimento em legislações e jurisprudências.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Destaques -->
+    <section id="destaques" class="mb-5">
+      <h2 class="section-title">Destaques Profissionais</h2>
+      <ul class="list-group list-group-flush fs-5">
+        <li class="list-group-item border-0 ps-0">
+          <strong>Criação de processos de Gerenciamento de Riscos:</strong> Focados em segurança logística, promovendo integração e conscientização.
+        </li>
+        <li class="list-group-item border-0 ps-0">
+          <strong>Conhecimento aprofundado em tecnologias:</strong> Rastreamento, sensores e atuadores.
+        </li>
+        <li class="list-group-item border-0 ps-0">
+          <strong>Atuação junto a órgãos de segurança pública:</strong> Suporte em situações críticas com polícia militar e civil.
+        </li>
+        <li class="list-group-item border-0 ps-0">
+          <strong>Realização de visitas comerciais e treinamentos:</strong> Recomendações para melhorias operacionais.
+        </li>
+        <li class="list-group-item border-0 ps-0">
+          Profissional ético, comprometido e focado em resultados.
+        </li>
+      </ul>
+    </section>
+
+    <!-- Depoimentos -->
+    <section id="depoimentos" class="mb-5">
+      <h2 class="section-title">Depoimentos</h2>
+      <div id="carouselDepoimentos" class="carousel slide" data-bs-ride="carousel" data-bs-interval="7000" aria-label="Depoimentos de clientes e parceiros">
+        <div class="carousel-inner shadow rounded bg-white p-4">
+          <div class="carousel-item active text-center">
+            <blockquote class="blockquote fs-5">
+              “Excelente profissional, muito comprometido e estratégico na resolução dos nossos casos trabalhistas.”
+            </blockquote>
+            <footer class="blockquote-footer mt-3">Maria Oliveira - Diretora RH</footer>
+          </div>
+          <div class="carousel-item text-center">
+            <blockquote class="blockquote fs-5">
+              “Seus pareceres jurídicos foram fundamentais para o sucesso em processos complexos de seguros.”
+            </blockquote>
+            <footer class="blockquote-footer mt-3">Carlos Menezes - CEO Transportadora XYZ</footer>
+          </div>
+          <div class="carousel-item text-center">
+            <blockquote class="blockquote fs-5">
+              “Profissional com ética e conhecimento técnico impressionantes, recomendo sem dúvidas.”
+            </blockquote>
+            <footer class="blockquote-footer mt-3">Juliana Santos - Advogada Parceira</footer>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselDepoimentos" data-bs-slide="prev" aria-label="Anterior">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselDepoimentos" data-bs-slide="next" aria-label="Próximo">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contato" class="mb-5">
+      <h2 class="section-title">Contato</h2>
+      <p class="fs-5 mb-4">Para consultorias jurídicas, mediação de conflitos ou outras informações, envie sua mensagem abaixo:</p>
+
+      <form id="formContato" class="row g-3 needs-validation" novalidate>
+        <div class="col-md-6">
+          <label for="nome" class="form-label fw-semibold">Nome completo</label>
+          <input type="text" class="form-control" id="nome" placeholder="Seu nome" required />
+          <div class="invalid-feedback">Por favor, insira seu nome.</div>
+        </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label fw-semibold">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="seu@email.com" required />
+          <div class="invalid-feedback">Por favor, insira um email válido.</div>
+        </div>
+        <div class="col-12">
+          <label for="telefone" class="form-label fw-semibold">Telefone</label>
+          <input type="tel" class="form-control" id="telefone" placeholder="(11) 99999-9999" pattern="^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$" />
+          <div class="form-text">Opcional, formato: (XX) XXXXX-XXXX</div>
+          <div class="invalid-feedback">Por favor, insira um telefone válido (opcional).</div>
+        </div>
+        <div class="col-12">
+          <label for="mensagem" class="form-label fw-semibold">Mensagem</label>
+          <textarea class="form-control" id="mensagem" rows="5" placeholder="Sua mensagem" required></textarea>
+          <div class="invalid-feedback">A mensagem não pode ficar vazia.</div>
+        </div>
+        <div class="col-12">
+          <button type="submit" id="btnSubmit" class="btn btn-primary px-5">Enviar</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Redes sociais -->
+    <section id="redes" class="mb-5 text-center">
+      <h2 class="section-title">Redes Sociais</h2>
+      <p class="fs-5 mb-4">Conecte-se comigo nas redes sociais:</p>
+      <div class="d-flex justify-content-center gap-4 fs-2">
+        <a href="#" aria-label="LinkedIn" class="text-primary" title="LinkedIn">
+          <i class="bi bi-linkedin"></i>
+        </a>
+        <a href="#" aria-label="Facebook" class="text-primary" title="Facebook">
+          <i class="bi bi-facebook"></i>
+        </a>
+        <a href="#" aria-label="Twitter" class="text-info" title="Twitter">
+          <i class="bi bi-twitter"></i>
+        </a>
+        <a href="#" aria-label="Instagram" class="text-danger" title="Instagram">
+          <i class="bi bi-instagram"></i>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Back to Top Button -->
+  <button id="btnTop" aria-label="Voltar ao topo" title="Voltar ao topo">
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <p class="mb-2 mb-md-0">&copy; 2025 Juiz Arbitral. Todos os direitos reservados.</p>
+      <nav>
+        <a href="#apresentacao" class="me-3">Apresentação</a>
+        <a href="#competencias" class="me-3">Competências</a>
+        <a href="#destaques" class="me-3">Destaques</a>
+        <a href="#depoimentos" class="me-3">Depoimentos</a>
+        <a href="#contato">Contato</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS + Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Validação do formulário bootstrap
+    (() => {
+      'use strict'
+      const form = document.querySelector('#formContato');
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        } else {
+          event.preventDefault();
+          alert('Mensagem enviada com sucesso! Obrigado pelo contato.');
+          form.reset();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    })();
+
+    // Mostrar botão "Voltar ao topo" ao rolar a página
+    const btnTop = document.getElementById('btnTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        btnTop.style.display = 'block';
+      } else {
+        btnTop.style.display = 'none';
+      }
+    });
+    btnTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Ativar link ativo na navbar conforme scroll
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 80;
+        if (pageYOffset >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === current) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
