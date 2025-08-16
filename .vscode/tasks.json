@@ -2,9 +2,9 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Commit e Push Interativo",
+      "label": "Commit Interativo",
       "type": "shell",
-      "command": "git add . && git commit -m \"${input:commitMessage}\" && git push origin main",
+      "command": "git add . && git commit -m \"${input:commitMessage}\"",
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
