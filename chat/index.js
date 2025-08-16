@@ -1,5 +1,7 @@
 const venom = require('venom-bot');
 
+let chatbotAtivo = false; // Flag para ativar/desativar o bot
+
 venom
   .create({
     session: 'default',
@@ -17,8 +19,18 @@ venom
 
 function start(client) {
   client.onMessage(message => {
-    if (message.body) {
-      client.sendText(message.from, 'Olá! Recebi sua mensagem.');
+    const texto = message.body.toLowerCase();
+
+    // Ativa o chatbot apenas com a palavra-chave
+    if (texto === 'batatadoce') {
+      chatbotAtivo = true;
+      return client.sendText(message.from, 'Chatbot ativado! Agora posso responder suas mensagens.');
     }
+
+    // Se não estiver ativo, não responde
+    if (!chatbotAtivo) return;
+
+    // Resposta padrão depois de ativar
+    client.sendText(message.from, 'Olá! Recebi sua mensagem.');
   });
 }
