@@ -2,41 +2,42 @@ import sys
 from pathlib import Path
 from transformers import LlamaForCausalLM, LlamaTokenizer
 import torch
-import traceback
 
-MODEL_PATH = Path(r"C:\Users\server_spd\.ollama\models\Llama3.2-3B-Instruct")
-PROMPT_INICIAL = """Você é uma atendente de estúdio de tatuagem.
-Seja simpática, clara e prestativa.
-Forneça informações sobre agendamento, preços e estilos de tatuagem quando perguntado."""
+# Caminho para o modelo (use barra normal para Windows)
+MODEL_PATH = Path(r"C:\Users\server_spd\.ollama\models\Llama3.2-3B-Instruct").as_posix()
 
-# Logs
-print("Python: Carregando tokenizer e modelo...", flush=True)
+# Histórico das mensagens para contexto
+historico = []
+
+# Prompt inicial da atendente
+prompt_base = (
+    "Você é uma atendente de um estúdio de tatuagem, prestativa e educada. "
+    "Responda perguntas de clientes sobre tatuagens, horários, preços e cuidados. "
+)
+
+print("Python: Iniciando carregamento do tokenizer e modelo...", flush=True)
 
 try:
-    tokenizer = LlamaTokenizer.from_pretrained(MODEL_PATH, legacy=False)
+    tokenizer = LlamaTokenizer.from_pretrained(MODEL_PATH)
     model = LlamaForCausalLM.from_pretrained(MODEL_PATH, device_map="auto")
+    print("Python: Modelo e tokenizer carregados com sucesso!", flush=True)
 except Exception as e:
-    print("Python: Erro ao carregar modelo/tokenizer:", str(e), flush=True)
-    traceback.print_exc()
+    print(f"Python: Erro ao carregar modelo/tokenizer: {e}", flush=True)
     sys.exit(1)
 
-print("Python: Modelo e tokenizer carregados com sucesso.", flush=True)
+def gerar_resposta(mensagem):
+    global historico
 
-historicos = {}
+    # Adiciona mensagem ao histórico
+    historico.append(f"Cliente: {mensagem}")
 
-def gerar_resposta(usuario, mensagem):
+    # Monta prompt completo com histórico
+    prompt_completo = prompt_base + "\n" + "\n".join(historico) + "\nAtendente:"
+    print(f"Python: Prompt enviado para o modelo:\n{prompt_completo}\n", flush=True)
+
+    inputs = tokenizer(prompt_completo, return_tensors="pt").to(model.device)
+
     try:
-        print(f"Python: Recebido usuário='{usuario}', mensagem='{mensagem}'", flush=True)
-        if usuario not in historicos:
-            historicos[usuario] = [f"IA: {PROMPT_INICIAL}"]
-            print(f"Python: Histórico inicial criado para {usuario}", flush=True)
-
-        historicos[usuario].append(f"Usuario: {mensagem}")
-        prompt = "\n".join(historicos[usuario]) + "\nIA:"
-
-        print(f"Python: Prompt gerado:\n{prompt}", flush=True)
-
-        inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
         with torch.no_grad():
             outputs = model.generate(
                 **inputs,
@@ -46,24 +47,25 @@ def gerar_resposta(usuario, mensagem):
                 top_p=0.9
             )
         resposta = tokenizer.decode(outputs[0], skip_special_tokens=True)
-        historicos[usuario].append(f"IA: {resposta}")
 
-        print(f"Python: Resposta gerada:\n{resposta}", flush=True)
-        return resposta
+        # Mantém apenas a parte da resposta do modelo
+        resposta_final = resposta.split("Atendente:")[-1].strip()
+
+        # Adiciona ao histórico
+        historico.append(f"Atendente: {resposta_final}")
+
+        print(f"Python: Resposta gerada: {resposta_final}\n", flush=True)
+        return resposta_final
     except Exception as e:
-        print("Python: Erro ao gerar resposta:", str(e), flush=True)
-        traceback.print_exc()
-        return f"Erro: {str(e)}"
+        print(f"Python: Erro ao gerar resposta: {e}", flush=True)
+        return "Desculpe, ocorreu um erro ao processar sua mensagem."
 
-# Loop stdin
-print("Python: Aguardando mensagens...", flush=True)
+# Loop infinito lendo mensagens do stdin
+print("Python: Aguardando mensagens do Node.js...", flush=True)
 for line in sys.stdin:
-    if not line.strip():
-        continue
-    try:
-        usuario, mensagem = line.strip().split("||", 1)
-        resposta = gerar_resposta(usuario, mensagem)
-        print(resposta, flush=True)
-    except Exception as e:
-        print("Python: Erro no loop principal:", str(e), flush=True)
-        traceback.print_exc()
+    msg = line.strip()
+    if msg.lower() == "sair":
+        print("Python: Encerrando processo...", flush=True)
+        break
+    resposta = gerar_resposta(msg)
+    print(resposta, flush=True)
