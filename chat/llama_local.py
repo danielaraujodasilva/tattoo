@@ -3,19 +3,28 @@ from pathlib import Path
 from transformers import LlamaForCausalLM, LlamaTokenizer
 import torch
 
+# Caminho absoluto do modelo LLaMA local
 MODEL_PATH = Path(r"C:\Users\server_spd\.ollama\models\Llama3.2-3B-Instruct")
 
-# Carrega modelo e tokenizer apenas uma vez
+# Prompt inicial para definir o comportamento da IA
+PROMPT_INICIAL = """Você é uma atendente de estúdio de tatuagem. 
+Seja simpática, clara e prestativa. 
+Forneça informações sobre agendamento, preços e estilos de tatuagem quando perguntado."""
+
+# Carrega tokenizer e modelo uma vez
 tokenizer = LlamaTokenizer.from_pretrained(MODEL_PATH, legacy=False)
 model = LlamaForCausalLM.from_pretrained(MODEL_PATH, device_map="auto")
 
-# Mantém o histórico de mensagens para contexto
-historico = []
+# Histórico de conversa por usuário
+historicos = {}
 
-def gerar_resposta(mensagem):
-    global historico
-    historico.append(f"Usuario: {mensagem}")
-    prompt = "\n".join(historico) + "\nIA:"
+def gerar_resposta(usuario, mensagem):
+    if usuario not in historicos:
+        historicos[usuario] = [f"IA: {PROMPT_INICIAL}"]
+
+    historicos[usuario].append(f"Usuario: {mensagem}")
+    prompt = "\n".join(historicos[usuario]) + "\nIA:"
+    
     inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
     with torch.no_grad():
         outputs = model.generate(
@@ -26,15 +35,16 @@ def gerar_resposta(mensagem):
             top_p=0.9
         )
     resposta = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    historico.append(f"IA: {resposta}")
+    historicos[usuario].append(f"IA: {resposta}")
     return resposta
 
-# Loop infinito lendo mensagens do stdin
+# Loop infinito para comunicação via stdin
 for line in sys.stdin:
-    msg = line.strip()
-    if not msg:
+    if not line.strip():
         continue
-    if msg.lower() == "sair":
-        break
-    resposta = gerar_resposta(msg)
-    print(resposta, flush=True)
+    try:
+        usuario, mensagem = line.strip().split("||", 1)
+        resposta = gerar_resposta(usuario, mensagem)
+        print(resposta, flush=True)
+    except Exception as e:
+        print(f"Erro: {str(e)}", flush=True)

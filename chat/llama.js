@@ -1,18 +1,23 @@
 const { spawn } = require('child_process');
+const path = require('path');
 
-const python = spawn('python', ['chat/llama_local.py'], {
+// Spawn do Python
+const python = spawn('python', [path.join(__dirname, 'llama_local.py')], {
   stdio: ['pipe', 'pipe', 'pipe']
 });
 
-// Buffer para garantir que cada resposta seja completa
 let buffer = '';
+let pendingResolve = null;
 
 python.stdout.on('data', (data) => {
   buffer += data.toString();
   if (buffer.includes('\n')) {
     const linhas = buffer.split('\n');
     linhas.slice(0, -1).forEach((linha) => {
-      if (linha.trim()) pendingResolve(linha.trim());
+      if (linha.trim() && pendingResolve) {
+        pendingResolve(linha.trim());
+        pendingResolve = null;
+      }
     });
     buffer = linhas[linhas.length - 1];
   }
@@ -26,19 +31,17 @@ python.on('close', (code) => {
   console.log(`Python terminou com código ${code}`);
 });
 
-let pendingResolve = null;
-
-function responderLlama(mensagem) {
+// Função para enviar mensagem ao Python
+function responderLlama(usuario, mensagem) {
   return new Promise((resolve, reject) => {
     pendingResolve = resolve;
-    python.stdin.write(mensagem + '\n');
-    // timeout para não travar caso algo dê errado
+    python.stdin.write(`${usuario}||${mensagem}\n`);
     setTimeout(() => {
       if (pendingResolve) {
-        pendingResolve('Erro: timeout ao receber resposta da IA');
+        pendingResolve('Erro: timeout na resposta da IA');
         pendingResolve = null;
       }
-    }, 20000); // 20 segundos
+    }, 20000); // 20s timeout
   });
 }
 

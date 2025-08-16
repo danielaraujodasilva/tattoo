@@ -1,13 +1,13 @@
 const venom = require('venom-bot');
 const { responderLlama } = require('./llama');
 
-let chatbotAtivo = false;
+let chatbotsAtivos = {}; // Histórico de ativação por número
 
 venom
   .create({
     session: 'default',
     multidevice: true,
-    headless: 'new', // Atualizado para a nova forma
+    headless: 'new',
     useChrome: true,
     chromiumArgs: [
       '--no-sandbox',
@@ -20,21 +20,23 @@ venom
 
 function start(client) {
   client.onMessage(async (message) => {
+    const numero = message.from;
     const texto = message.body.toLowerCase();
 
-    if (texto === 'batatadoce') {
-      chatbotAtivo = true;
-      return client.sendText(message.from, 'Chatbot ativado! Agora posso responder suas mensagens.');
+    // Ativa o chatbot apenas com a palavra "chatbot"
+    if (texto === 'chatbot') {
+      chatbotsAtivos[numero] = true;
+      return client.sendText(numero, 'Chatbot ativado! Agora posso responder suas mensagens.');
     }
 
-    if (!chatbotAtivo) return;
+    if (!chatbotsAtivos[numero]) return; // Se não estiver ativo, não responde
 
     try {
-      const resposta = await responderLlama(message.body);
-      client.sendText(message.from, resposta);
+      const resposta = await responderLlama(numero, message.body);
+      await client.sendText(numero, resposta);
     } catch (err) {
       console.error(err);
-      client.sendText(message.from, 'Ocorreu um erro ao processar sua mensagem.');
+      client.sendText(numero, 'Ocorreu um erro ao processar sua mensagem.');
     }
   });
 }
