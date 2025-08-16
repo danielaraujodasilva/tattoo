@@ -1,32 +1,25 @@
 const { spawn } = require('child_process');
+const path = require('path');
 
-/**
- * Função que envia uma mensagem para o LLaMA local e retorna a resposta.
- * O Node.js chama o script Python 'llama_local.py'.
- */
+// Caminho para o script Python
+const llamaScript = path.join(__dirname, 'llama_local.py');
+
+// Cria o processo Python apenas uma vez
+const llamaProcess = spawn('python', [llamaScript]);
+
+llamaProcess.stderr.on('data', (data) => {
+  console.error(`Python stderr: ${data.toString()}`);
+});
+
+// Função para enviar mensagem e receber resposta
 function responderLlama(mensagem) {
-  return new Promise((resolve, reject) => {
-    const python = spawn('python', ['llama_local.py', mensagem]);
-
-    let resposta = '';
-    let erro = '';
-
-    python.stdout.on('data', (data) => {
-      resposta += data.toString();
-    });
-
-    python.stderr.on('data', (data) => {
-      erro += data.toString();
-    });
-
-    python.on('close', (code) => {
-      if (code === 0) {
-        resolve(resposta.trim());
-      } else {
-        console.error('Erro LLaMA:', erro);
-        reject(new Error('Erro ao chamar o LLaMA'));
-      }
-    });
+  return new Promise((resolve) => {
+    const onData = (data) => {
+      resolve(data.toString().trim());
+      llamaProcess.stdout.off('data', onData); // remove listener
+    };
+    llamaProcess.stdout.on('data', onData);
+    llamaProcess.stdin.write(mensagem + '\n');
   });
 }
 
