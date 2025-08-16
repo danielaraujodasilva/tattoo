@@ -1,4 +1,5 @@
 const venom = require('venom-bot');
+const { responderLlama } = require('./llama');
 
 let chatbotAtivo = false; // Flag para ativar/desativar o bot
 
@@ -6,7 +7,7 @@ venom
   .create({
     session: 'default',
     multidevice: true,
-    headless: true, // mantém headless
+    headless: true,
     useChrome: true,
     chromiumArgs: [
       '--no-sandbox',
@@ -18,7 +19,7 @@ venom
   .catch(err => console.log(err));
 
 function start(client) {
-  client.onMessage(message => {
+  client.onMessage(async (message) => {
     const texto = message.body.toLowerCase();
 
     // Ativa o chatbot apenas com a palavra-chave
@@ -30,7 +31,13 @@ function start(client) {
     // Se não estiver ativo, não responde
     if (!chatbotAtivo) return;
 
-    // Resposta padrão depois de ativar
-    client.sendText(message.from, 'Olá! Recebi sua mensagem.');
+    // Resposta usando LLaMA
+    try {
+      const resposta = await responderLlama(message.body);
+      client.sendText(message.from, resposta);
+    } catch (err) {
+      console.error(err);
+      client.sendText(message.from, 'Ocorreu um erro ao processar sua mensagem.');
+    }
   });
 }
