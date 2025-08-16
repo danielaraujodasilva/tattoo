@@ -1,17 +1,17 @@
 const { spawn } = require('child_process');
 
-// Histórico por usuário
+// Histórico de conversa por usuário
 const historico = {};
 
-// Prompt base da IA
+// Prompt base
 const promptBase = `Você é uma atendente de estúdio de tatuagem. 
-Responda sempre de forma educada, prestativa e clara, como se estivesse atendendo um cliente real.`;
+Responda de forma educada, prestativa e clara, como se estivesse atendendo um cliente.`;
 
 /**
- * Função para gerar resposta da IA via Ollama CLI (modo chat)
+ * Gera resposta da IA usando Ollama CLI no modo chat
  * @param {string} usuario - ID do usuário (telefone)
  * @param {string} mensagem - Mensagem recebida
- * @returns {Promise<string>} - Resposta gerada
+ * @returns {Promise<string>}
  */
 function responderOllama(usuario, mensagem) {
     return new Promise((resolve, reject) => {
@@ -33,7 +33,6 @@ function responderOllama(usuario, mensagem) {
         let resposta = '';
         let erro = '';
 
-        // Envia prompt para stdin do processo
         cmd.stdin.write(promptCompleto + '\n');
         cmd.stdin.end();
 
