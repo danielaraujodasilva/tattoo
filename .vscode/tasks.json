@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Commit e Push Interativo",
+      "type": "shell",
+      "command": "git add . && git commit -m \"${input:commitMessage}\" && git push origin main",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "inputs": [
+        {
+          "id": "commitMessage",
+          "type": "promptString",
+          "description": "Digite a mensagem do commit"
+        }
+      ]
+    }
+  ]
+}
