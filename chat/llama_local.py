@@ -3,10 +3,9 @@ from pathlib import Path
 from transformers import LlamaForCausalLM, LlamaTokenizer
 import torch
 
-# Caminho direto para o modelo que você baixou
 MODEL_PATH = Path(r"C:\Users\server_spd\.ollama\models\Llama3.2-3B-Instruct")
 
-# Carrega modelo e tokenizer uma vez
+# Carrega modelo e tokenizer **uma vez**
 tokenizer = LlamaTokenizer.from_pretrained(MODEL_PATH, legacy=False)
 model = LlamaForCausalLM.from_pretrained(MODEL_PATH, device_map="auto")
 
@@ -26,7 +25,9 @@ def gerar_resposta(mensagem):
 # Loop infinito lendo mensagens do stdin
 for line in sys.stdin:
     msg = line.strip()
+    if not msg:
+        continue
     if msg.lower() == "sair":
         break
     resposta = gerar_resposta(msg)
-    print(resposta, flush=True)
+    print(resposta, flush=True)  # **flush garante que Node receba a resposta imediatamente**

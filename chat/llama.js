@@ -1,26 +1,28 @@
 const { spawn } = require('child_process');
-const path = require('path');
 
-// Caminho para o script Python
-const llamaScript = path.join(__dirname, 'llama_local.py');
+// Inicializa o Python apenas uma vez
+const python = spawn('python', ['chat/llama_local.py'], { stdio: ['pipe', 'pipe', 'pipe'] });
 
-// Cria o processo Python apenas uma vez
-const llamaProcess = spawn('python', [llamaScript]);
-
-llamaProcess.stderr.on('data', (data) => {
-  console.error(`Python stderr: ${data.toString()}`);
-});
-
-// Função para enviar mensagem e receber resposta
 function responderLlama(mensagem) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const onData = (data) => {
+      python.stdout.off('data', onData); // Remove listener para evitar múltiplos eventos
       resolve(data.toString().trim());
-      llamaProcess.stdout.off('data', onData); // remove listener
     };
-    llamaProcess.stdout.on('data', onData);
-    llamaProcess.stdin.write(mensagem + '\n');
+
+    python.stdout.on('data', onData);
+
+    python.stdin.write(mensagem + '\n'); // Envia mensagem para o Python
   });
 }
+
+// Exibe erros do Python no console
+python.stderr.on('data', (data) => {
+  console.error('Erro LLaMA:', data.toString());
+});
+
+python.on('close', (code) => {
+  console.log(`Python terminou com código ${code}`);
+});
 
 module.exports = { responderLlama };
