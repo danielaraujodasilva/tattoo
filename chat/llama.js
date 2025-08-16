@@ -1,50 +1,64 @@
 const { spawn } = require('child_process');
 const path = require('path');
 
-const python = spawn('python', [path.join(__dirname, 'llama_local.py')], {
-  stdio: ['pipe', 'pipe', 'pipe']
-});
+// Histórico por usuário
+const historico = {};
 
-let buffer = '';
-let pendingResolve = null;
+// Prompt inicial da IA
+const promptBase = `Você é uma atendente de estúdio de tatuagem. 
+Responda sempre de forma educada, prestativa e clara, como se estivesse atendendo um cliente real.`;
 
-python.stdout.on('data', (data) => {
-  console.log('Node: stdout do Python:', data.toString());
-  buffer += data.toString();
-  if (buffer.includes('\n')) {
-    const linhas = buffer.split('\n');
-    linhas.slice(0, -1).forEach((linha) => {
-      if (linha.trim() && pendingResolve) {
-        console.log('Node: Resolvendo promise com linha:', linha.trim());
-        pendingResolve(linha.trim());
-        pendingResolve = null;
-      }
+/**
+ * Função para gerar resposta da IA via Ollama CLI
+ * @param {string} usuario - ID do usuário (telefone)
+ * @param {string} mensagem - Mensagem recebida
+ * @returns {Promise<string>} - Resposta gerada
+ */
+function responderOllama(usuario, mensagem) {
+    return new Promise((resolve, reject) => {
+        // Cria histórico para usuário, se não existir
+        if (!historico[usuario]) historico[usuario] = [];
+
+        // Adiciona a mensagem do usuário ao histórico
+        historico[usuario].push({ role: "user", content: mensagem });
+
+        // Monta prompt completo com histórico
+        let promptCompleto = promptBase + "\n\n";
+        historico[usuario].forEach(msg => {
+            promptCompleto += `${msg.role === "user" ? "Cliente" : "Atendente"}: ${msg.content}\n`;
+        });
+        promptCompleto += "Atendente:";
+
+        // Chama Ollama CLI
+        const cmd = spawn('ollama', ['generate', 'Llama3.2-3B-Instruct', '--prompt', promptCompleto]);
+
+        let resposta = '';
+        let erro = '';
+
+        cmd.stdout.on('data', data => {
+            resposta += data.toString();
+        });
+
+        cmd.stderr.on('data', data => {
+            erro += data.toString();
+        });
+
+        cmd.on('close', code => {
+            if (code !== 0) {
+                console.error('Erro LLaMA:', erro);
+                return reject(new Error(`Ollama CLI retornou código ${code}`));
+            }
+
+            // Limpa espaços extras
+            resposta = resposta.trim();
+
+            // Adiciona resposta ao histórico
+            historico[usuario].push({ role: "assistant", content: resposta });
+
+            console.log(`Node: [Ollama] ${usuario} -> ${resposta}`);
+            resolve(resposta);
+        });
     });
-    buffer = linhas[linhas.length - 1];
-  }
-});
-
-python.stderr.on('data', (data) => {
-  console.error('Node: stderr do Python:', data.toString());
-});
-
-python.on('close', (code) => {
-  console.log(`Node: Python terminou com código ${code}`);
-});
-
-function responderLlama(usuario, mensagem) {
-  return new Promise((resolve, reject) => {
-    console.log(`Node: Enviando para Python -> ${usuario}||${mensagem}`);
-    pendingResolve = resolve;
-    python.stdin.write(`${usuario}||${mensagem}\n`);
-    setTimeout(() => {
-      if (pendingResolve) {
-        console.error('Node: Timeout de 20s sem resposta da IA');
-        pendingResolve('Erro: timeout na resposta da IA');
-        pendingResolve = null;
-      }
-    }, 20000);
-  });
 }
 
-module.exports = { responderLlama };
+module.exports = { responderOllama };

@@ -1,49 +1,51 @@
 const venom = require('venom-bot');
-const { responderLlama } = require('./llama');
+const { responderOllama } = require('./llama');
 
-let chatbotsAtivos = {};
+let chatbotAtivo = false;
 
-venom
-  .create({
+venom.create({
     session: 'default',
     multidevice: true,
-    headless: 'new',
+    headless: 'new', // Evita deprecation warning
     useChrome: true,
     chromiumArgs: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage'
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage'
     ]
-  })
-  .then(client => start(client))
-  .catch(err => console.log('Venom: Erro na criação da sessão', err));
+})
+.then(client => start(client))
+.catch(err => console.log(err));
 
 function start(client) {
-  client.onMessage(async (message) => {
-    const numero = message.from;
-    const texto = message.body.toLowerCase();
+    client.onMessage(async message => {
+        const texto = message.body.toLowerCase();
+        const usuario = message.from;
 
-    console.log(`Venom: Mensagem recebida de ${numero}: ${texto}`);
+        console.log(`Mensagem recebida de ${usuario}: ${message.body}`);
 
-    if (texto === 'chatbot') {
-      chatbotsAtivos[numero] = true;
-      console.log(`Venom: Chatbot ativado para ${numero}`);
-      return client.sendText(numero, 'Chatbot ativado! Agora posso responder suas mensagens.');
-    }
+        // Ativa chatbot
+        if (texto === 'batatadoce') {
+            chatbotAtivo = true;
+            console.log(`Chatbot ativado por ${usuario}`);
+            return client.sendText(usuario, 'Chatbot ativado! Agora posso responder suas mensagens.');
+        }
 
-    if (!chatbotsAtivos[numero]) {
-      console.log(`Venom: Chatbot não está ativo para ${numero}`);
-      return;
-    }
+        // Se chatbot não ativo, ignora
+        if (!chatbotAtivo) {
+            console.log('Chatbot não ativo. Ignorando mensagem.');
+            return;
+        }
 
-    try {
-      console.log(`Venom: Enviando mensagem para LLaMA: ${texto}`);
-      const resposta = await responderLlama(numero, message.body);
-      console.log(`Venom: Resposta recebida da LLaMA: ${resposta}`);
-      await client.sendText(numero, resposta);
-    } catch (err) {
-      console.error('Venom: Erro ao chamar o LLaMA', err);
-      client.sendText(numero, 'Ocorreu um erro ao processar sua mensagem.');
-    }
-  });
+        // Resposta via Ollama
+        try {
+            console.log(`Chamando Ollama para ${usuario}...`);
+            const resposta = await responderOllama(usuario, message.body);
+            await client.sendText(usuario, resposta);
+            console.log(`Resposta enviada para ${usuario}`);
+        } catch (err) {
+            console.error(`Erro ao chamar Ollama: ${err.message}`);
+            await client.sendText(usuario, 'Ocorreu um erro ao processar sua mensagem.');
+        }
+    });
 }
