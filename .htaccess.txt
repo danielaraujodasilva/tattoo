@@ -15,3 +15,6 @@
   RewriteEngine On
   RewriteBase /site/
 </IfModule>
+
+ProxyPass /site/zap/webhook http://localhost:3017/webhook
+ProxyPassReverse /site/zap/webhook http://localhost:3017/webhook
