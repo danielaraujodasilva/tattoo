@@ -468,40 +468,41 @@
       </div>
       <div class="row g-4">
         <div class="col-lg-7">
-          <form class="card shadow-soft border-0">
-            <div class="card-body p-4">
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label class="form-label">Nome</label>
-                  <input type="text" class="form-control" placeholder="Seu nome">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Empresa</label>
-                  <input type="text" class="form-control" placeholder="Nome da construtora">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">E-mail</label>
-                  <input type="email" class="form-control" placeholder="seu@email.com">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Telefone</label>
-                  <input type="tel" class="form-control" placeholder="(xx) xxxxx-xxxx">
-                </div>
-                <div class="col-12">
-                  <label class="form-label">Mensagem</label>
-                  <textarea class="form-control" rows="4" placeholder="Conte-nos sobre sua necessidade"></textarea>
-                </div>
-                <div class="col-12 d-flex align-items-center gap-2">
-                  <input class="form-check-input" type="checkbox" id="lgpd">
-                  <label for="lgpd" class="form-check-label small">Concordo com o tratamento de dados para contato (LGPD).</label>
-                </div>
-              </div>
-            </div>
-            <div class="card-footer d-flex justify-content-between align-items-center">
-              <small class="text-muted">Responderemos em até 1 dia útil.</small>
-              <button type="button" class="btn btn-cnjp" onclick="cnjpToast()"><i class="bi bi-send me-1"></i>Enviar</button>
-            </div>
-          </form>
+          <form class="card shadow-soft border-0" method="POST" action="#contato">
+  <div class="card-body p-4">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Nome</label>
+        <input type="text" class="form-control" name="nome" placeholder="Seu nome" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Empresa</label>
+        <input type="text" class="form-control" name="empresa" placeholder="Nome da construtora">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">E-mail</label>
+        <input type="email" class="form-control" name="email" placeholder="seu@email.com" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Telefone</label>
+        <input type="tel" class="form-control" name="telefone" placeholder="(xx) xxxxx-xxxx">
+      </div>
+      <div class="col-12">
+        <label class="form-label">Mensagem</label>
+        <textarea class="form-control" name="mensagem" rows="4" placeholder="Conte-nos sobre sua necessidade" required></textarea>
+      </div>
+      <div class="col-12 d-flex align-items-center gap-2">
+        <input class="form-check-input" type="checkbox" id="lgpd" name="lgpd" required>
+        <label for="lgpd" class="form-check-label small">Concordo com o tratamento de dados para contato (LGPD).</label>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer d-flex justify-content-between align-items-center">
+    <small class="text-muted">Responderemos em até 1 dia útil.</small>
+    <button type="submit" name="submit" class="btn btn-cnjp"><i class="bi bi-send me-1"></i>Enviar</button>
+  </div>
+</form>
+
         </div>
         <div class="col-lg-5">
           <div class="card shadow-soft border-0">
