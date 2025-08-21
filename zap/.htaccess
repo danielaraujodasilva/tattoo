@@ -1,0 +1,10 @@
+# Permitir proxy
+<IfModule mod_proxy.c>
+    ProxyRequests Off
+    <Proxy *>
+        Require all granted
+    </Proxy>
+
+    ProxyPass /site/zap/webhook http://localhost:3017/webhook
+    ProxyPassReverse /site/zap/webhook http://localhost:3017/webhook
+</IfModule>
