@@ -28,14 +28,28 @@ function saveClients(clients) {
 // Webhook para WhatsApp (recebendo mensagens)
 app.post("/webhook", async (req, res) => {
   const data = req.body;
-  console.log("Webhook recebido:", data);
+  console.log("Webhook recebido:", JSON.stringify(data, null, 2)); // log completo
 
-  // Assumindo que a mensagem vem em data.messages[0]
-  if (data.messages && data.messages.length > 0) {
-    const msg = data.messages[0];
-    const phone = msg.from;
-    const text = msg.text?.body || "";
-    await handleMessage(text, phone, "Bot");
+  if (
+    data.entry &&
+    Array.isArray(data.entry) &&
+    data.entry.length > 0
+  ) {
+    const changes = data.entry[0].changes;
+    if (Array.isArray(changes) && changes.length > 0) {
+      const value = changes[0].value;
+      const messages = value.messages;
+
+      if (Array.isArray(messages) && messages.length > 0) {
+        for (const msg of messages) {
+          const phone = msg.from;
+          const text = msg.text?.body || "";
+          console.log(`Mensagem recebida de ${phone}: ${text}`);
+          await handleMessage(text, phone, "Bot");
+          io.emit("newMessage", { phone, message: text });
+        }
+      }
+    }
   }
 
   res.sendStatus(200);
@@ -43,7 +57,7 @@ app.post("/webhook", async (req, res) => {
 
 // Verificação do webhook (GET) — necessário para Meta
 app.get("/webhook", (req, res) => {
-  const verify_token = process.env.WHATSAPP_VERIFY_TOKEN || "zapcrm123"; // coloque o mesmo token da Meta
+  const verify_token = process.env.WHATSAPP_VERIFY_TOKEN || "zapcrm123"; // token da Meta
 
   const mode = req.query["hub.mode"];
   const token = req.query["hub.verify_token"];
