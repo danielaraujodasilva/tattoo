@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="pt-br" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CNJP • Proposta Comercial</title>
+  <meta name="description" content="Proposta comercial da CNJP - Câmara Nacional de Justiça Privada para serviços de arbitragem, mediação e gestão contratual.">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root{
+      --cnjp-primary:#0b3b7e; /* azul corporativo */
+      --cnjp-secondary:#1256b0;
+      --cnjp-accent:#e6f0ff;
+    }
+    .bg-cnjp{ background: linear-gradient(135deg, var(--cnjp-primary), var(--cnjp-secondary)); }
+    .text-cnjp{ color: var(--cnjp-primary) !important; }
+    .btn-cnjp{ background: var(--cnjp-primary); border-color: var(--cnjp-primary); }
+    .btn-cnjp:hover{ background: var(--cnjp-secondary); border-color: var(--cnjp-secondary); }
+    .badge-soft{ background: var(--cnjp-accent); color: var(--cnjp-primary); }
+    .glass{
+      background: rgba(255,255,255,.85);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,.6);
+    }
+    .feature-icon{ font-size:2rem; }
+    .table thead th{ background: var(--cnjp-primary); color:#fff; }
+    .shadow-soft{ box-shadow: 0 10px 25px rgba(11,59,126,.15); }
+    .hero-wave{ position:relative; overflow:hidden; }
+    .hero-wave svg{ position:absolute; bottom:-1px; left:0; width:100%; }
+    @media print{
+      .no-print{ display:none !important; }
+      .card, .accordion-button{ box-shadow:none !important; }
+      .table{ font-size:12px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-cnjp shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#top"><i class="bi bi-shield-check me-2"></i>CNJP</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Alternar navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="#apresentacao">Apresentação</a></li>
+          <li class="nav-item"><a class="nav-link" href="#servicos">Serviços</a></li>
+          <li class="nav-item"><a class="nav-link" href="#diferenciais">Diferenciais</a></li>
+          <li class="nav-item"><a class="nav-link" href="#valores">Valores</a></li>
+          <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+        </ul>
+        <div class="ms-lg-3 d-flex gap-2">
+          <button class="btn btn-light btn-sm" data-bs-toggle="offcanvas" data-bs-target="#contatoCanvas"><i class="bi bi-telephone-outbound me-1"></i> Fale Conosco</button>
+          <button class="btn btn-outline-light btn-sm no-print" onclick="window.print()"><i class="bi bi-printer me-1"></i>Imprimir</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero-wave bg-cnjp text-white py-5" id="top">
+    <div class="container py-4">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+          <span class="badge badge-soft rounded-pill px-3 py-2 mb-3">Câmara Nacional de Justiça Privada</span>
+          <h1 class="display-5 fw-bold">Proposta Comercial<br class="d-none d-md-block"> de Arbitragem e Gestão Contratual</h1>
+          <p class="lead mb-4">Soluções integradas para construtoras: segurança jurídica, agilidade na resolução de conflitos e redução de custos operacionais.</p>
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="#valores" class="btn btn-light btn-lg text-cnjp shadow-soft"><i class="bi bi-currency-dollar me-2"></i>Ver Condições</a>
+            <a href="#contato" class="btn btn-outline-light btn-lg"><i class="bi bi-envelope-paper me-2"></i>Solicitar Proposta</a>
+          </div>
+          <div class="mt-4 small opacity-75">Responsável: <b>Francielen Bernardo da Silva</b></div>
+        </div>
+        <div class="col-lg-5">
+          <div class="card glass shadow-soft">
+            <div class="card-body p-4">
+              <h6 class="text-cnjp mb-3"><i class="bi bi-stars me-2"></i>Resumo Executivo</h6>
+              <ul class="list-unstyled mb-0">
+                <li class="mb-2"><i class="bi bi-check2-circle me-2 text-cnjp"></i>Gestão completa de contratos imobiliários</li>
+                <li class="mb-2"><i class="bi bi-check2-circle me-2 text-cnjp"></i>Mediação preventiva e arbitragem formal</li>
+                <li class="mb-2"><i class="bi bi-check2-circle me-2 text-cnjp"></i>Relatórios periódicos e KPIs de desempenho</li>
+                <li class="mb-2"><i class="bi bi-check2-circle me-2 text-cnjp"></i>Custos competitivos e previsíveis</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none" height="80"><path fill="#fff" d="M0,32L48,48C96,64,192,96,288,122.7C384,149,480,171,576,176C672,181,768,171,864,149.3C960,128,1056,96,1152,96C1248,96,1344,128,1392,144L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"/></svg>
+  </header>
+
+  <!-- Apresentação -->
+  <section id="apresentacao" class="py-5">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-7">
+          <h2 class="h3 text-cnjp mb-3"><i class="bi bi-building-check me-2"></i>Quem somos</h2>
+          <p class="mb-2">A <strong>CNJP - Câmara Nacional de Justiça Privada</strong> é uma instituição especializada em <strong>mediação, arbitragem</strong> e <strong>gestão de contratos empresariais e imobiliários</strong>, atuando com imparcialidade, segurança jurídica e eficiência.</p>
+          <p class="mb-2">Nosso objetivo é oferecer às construtoras uma solução <strong>integrada e econômica</strong> para gerenciar contratos de promessa de compra e venda, minimizar riscos de litígios e assegurar um relacionamento sólido com clientes e investidores.</p>
+          <div class="d-flex gap-2 flex-wrap mt-3">
+            <span class="badge badge-soft"><i class="bi bi-lock-fill me-1"></i>Confidencialidade</span>
+            <span class="badge badge-soft"><i class="bi bi-graph-up-arrow me-1"></i>Eficiência</span>
+            <span class="badge badge-soft"><i class="bi bi-shield-lock-fill me-1"></i>Segurança Jurídica</span>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="card shadow-soft border-0">
+            <div class="card-body">
+              <div class="row text-center g-3">
+                <div class="col-6">
+                  <div class="p-3 rounded bg-light">
+                    <div class="feature-icon"><i class="bi bi-clock-history"></i></div>
+                    <div class="fw-semibold mt-2">Agilidade</div>
+                    <div class="text-muted small">Resolução de conflitos até 70% mais rápida*</div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="p-3 rounded bg-light">
+                    <div class="feature-icon"><i class="bi bi-cash-coin"></i></div>
+                    <div class="fw-semibold mt-2">Economia</div>
+                    <div class="text-muted small">Custos até 30% menores*</div>
+                  </div>
+                </div>
+              </div>
+              <p class="small text-muted mt-3 mb-0">*Estimativas referenciais — podem variar conforme escopo e volume.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Serviços -->
+  <section id="servicos" class="py-5 bg-light">
+    <div class="container">
+      <div class="row mb-4">
+        <div class="col-lg-8">
+          <h2 class="h3 text-cnjp"><i class="bi bi-kanban me-2"></i>Serviços oferecidos</h2>
+          <p class="text-muted">Cobertura ponta a ponta: prevenção, resolução e governança contratual.</p>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 shadow-soft">
+            <div class="card-body">
+              <div class="feature-icon text-cnjp"><i class="bi bi-file-earmark-text-fill"></i></div>
+              <h5 class="mt-3">Gestão Contratual</h5>
+              <p class="text-muted small">Elaboração, revisão e administração de contratos (PCV, locação, financiamento), com controle de prazos e obrigações.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 shadow-soft">
+            <div class="card-body">
+              <div class="feature-icon text-cnjp"><i class="bi bi-people-fill"></i></div>
+              <h5 class="mt-3">Mediação Preventiva</h5>
+              <p class="text-muted small">Atuação extrajudicial em atrasos, distratos e renegociações, preservando o relacionamento com clientes.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 shadow-soft">
+            <div class="card-body">
+              <div class="feature-icon text-cnjp"><i class="bi bi-gavel"></i></div>
+              <h5 class="mt-3">Arbitragem</h5>
+              <p class="text-muted small">Procedimentos céleres e confidenciais com força legal, conduzidos por árbitros especializados.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 shadow-soft">
+            <div class="card-body">
+              <div class="feature-icon text-cnjp"><i class="bi bi-clipboard-data-fill"></i></div>
+              <h5 class="mt-3">Relatórios & KPIs</h5>
+              <p class="text-muted small">Transparência total com relatórios periódicos e indicadores de desempenho por empreendimento.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-lg-8">
+          <div class="accordion" id="acc-servicos">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="h1"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1" aria-expanded="true" aria-controls="c1">Escopo detalhado de Gestão Contratual</button></h2>
+              <div id="c1" class="accordion-collapse collapse show" aria-labelledby="h1" data-bs-parent="#acc-servicos">
+                <div class="accordion-body">
+                  <ul class="mb-0">
+                    <li>Modelagem e padronização de minutas;</li>
+                    <li>Revisão de cláusulas sensíveis (multa, distrato, garantias);</li>
+                    <li>Rotina de conferência documental e assinatura digital;</li>
+                    <li>Controle de prazos, aditivos e obrigações acessórias.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="h2"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2" aria-expanded="false" aria-controls="c2">Fluxo de Mediação e Arbitragem</button></h2>
+              <div id="c2" class="accordion-collapse collapse" aria-labelledby="h2" data-bs-parent="#acc-servicos">
+                <div class="accordion-body">
+                  <ol class="mb-0">
+                    <li><strong>Mediação:</strong> convite, sessões, acordo e termo final;</li>
+                    <li><strong>Arbitragem:</strong> convenção arbitral, instauração, instrução, sentença arbitral;</li>
+                    <li>Confidencialidade e prazos reduzidos em todas as etapas.</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="alert alert-primary border-0 shadow-soft" role="alert">
+            <div class="d-flex">
+              <i class="bi bi-info-circle-fill me-3 fs-4"></i>
+              <div>
+                <h6 class="mb-1">Tecnologias e conformidade</h6>
+                <small>Assinatura eletrônica, trilhas de auditoria, guarda de documentos e boas práticas LGPD.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Diferenciais -->
+  <section id="diferenciais" class="py-5">
+    <div class="container">
+      <div class="row mb-4">
+        <div class="col-lg-8">
+          <h2 class="h3 text-cnjp"><i class="bi bi-stars me-2"></i>Diferenciais</h2>
+          <p class="text-muted">O que torna a CNJP a parceira estratégica ideal para sua construtora.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 text-center shadow-soft">
+            <div class="card-body">
+              <div class="feature-icon text-cnjp"><i class="bi bi-speedometer2"></i></div>
+              <h6 class="mt-3">Agilidade</h6>
+              <p class="small text-muted">Prazos reduzidos com ritos claros e decisões técnicas.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 text-center shadow-soft">
+            <div class="card-body">
+              <div class="feature-icon text-cnjp"><i class="bi bi-shield-check"></i></div>
+              <h6 class="mt-3">Segurança</h6>
+              <p class="small text-muted">Imparcialidade institucional e governança de procedimentos.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 text-center shadow-soft">
+            <div class="card-body">
+              <div class="feature-icon text-cnjp"><i class="bi bi-eye-slash"></i></div>
+              <h6 class="mt-3">Confidencialidade</h6>
+              <p class="small text-muted">Rigor na proteção de dados e no sigilo processual.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 text-center shadow-soft">
+            <div class="card-body">
+              <div class="feature-icon text-cnjp"><i class="bi bi-piggy-bank"></i></div>
+              <h6 class="mt-3">Custo-efetividade</h6>
+              <p class="small text-muted">Condições comerciais competitivas e previsíveis.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Valores -->
+  <section id="valores" class="py-5 bg-light">
+    <div class="container">
+      <div class="row mb-4 align-items-end">
+        <div class="col-lg-8">
+          <h2 class="h3 text-cnjp"><i class="bi bi-currency-dollar me-2"></i>Condições Comerciais (Simulação)</h2>
+          <p class="text-muted">Valores indicativos — podem ser ajustados conforme escopo e volume.</p>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+          <div class="btn-group" role="group" aria-label="Exibição">
+            <button class="btn btn-outline-primary active" data-bs-toggle="tab" data-bs-target="#tab-tabela"><i class="bi bi-table"></i></button>
+            <button class="btn btn-outline-primary" data-bs-toggle="tab" data-bs-target="#tab-cards"><i class="bi bi-grid-3x3-gap"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="tab-tabela">
+          <div class="table-responsive shadow-soft">
+            <table class="table table-hover align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>Serviço</th>
+                  <th>Valor de Mercado Médio</th>
+                  <th>Valor Proposto CNJP</th>
+                  <th>Observação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Elaboração/Revisão de Contrato</td>
+                  <td>R$ 1.500,00</td>
+                  <td class="fw-bold text-cnjp">R$ 1.250,00</td>
+                  <td>Por contrato</td>
+                </tr>
+                <tr>
+                  <td>Gestão Mensal de Carteira (até 50)</td>
+                  <td>R$ 8.000,00</td>
+                  <td class="fw-bold text-cnjp">R$ 6.900,00</td>
+                  <td>Inclui relatórios</td>
+                </tr>
+                <tr>
+                  <td>Mediação Extrajudicial</td>
+                  <td>R$ 3.500,00</td>
+                  <td class="fw-bold text-cnjp">R$ 2.900,00</td>
+                  <td>Por procedimento</td>
+                </tr>
+                <tr>
+                  <td>Arbitragem Simples</td>
+                  <td>R$ 12.000,00</td>
+                  <td class="fw-bold text-cnjp">R$ 9.800,00</td>
+                  <td>Até 3 audiências</td>
+                </tr>
+                <tr>
+                  <td>Arbitragem Complexa</td>
+                  <td>R$ 20.000,00</td>
+                  <td class="fw-bold text-cnjp">R$ 16.500,00</td>
+                  <td>Com perícia</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="tab-cards">
+          <div class="row g-4 mt-1">
+            <div class="col-md-6 col-lg-4">
+              <div class="card h-100 shadow-soft">
+                <div class="card-body">
+                  <h6>Elaboração/Revisão de Contrato</h6>
+                  <p class="small text-muted mb-2">Valor Proposto</p>
+                  <div class="display-6 text-cnjp fw-bold">R$ 1.250</div>
+                  <ul class="small mt-3 mb-0">
+                    <li>Minuta, revisão e orientação</li>
+                    <li>Checklist documental</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="card h-100 shadow-soft">
+                <div class="card-body">
+                  <h6>Gestão Mensal (até 50)</h6>
+                  <p class="small text-muted mb-2">Valor Proposto</p>
+                  <div class="display-6 text-cnjp fw-bold">R$ 6.900</div>
+                  <ul class="small mt-3 mb-0">
+                    <li>Relatórios e KPIs</li>
+                    <li>Suporte contínuo</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="card h-100 shadow-soft">
+                <div class="card-body">
+                  <h6>Mediação Extrajudicial</h6>
+                  <p class="small text-muted mb-2">Valor Proposto</p>
+                  <div class="display-6 text-cnjp fw-bold">R$ 2.900</div>
+                  <ul class="small mt-3 mb-0">
+                    <li>Sessões estruturadas</li>
+                    <li>Termo de acordo</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="card h-100 shadow-soft">
+                <div class="card-body">
+                  <h6>Arbitragem Simples</h6>
+                  <p class="small text-muted mb-2">Valor Proposto</p>
+                  <div class="display-6 text-cnjp fw-bold">R$ 9.800</div>
+                  <ul class="small mt-3 mb-0">
+                    <li>Até 3 audiências</li>
+                    <li>Sentença arbitral</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="card h-100 shadow-soft">
+                <div class="card-body">
+                  <h6>Arbitragem Complexa</h6>
+                  <p class="small text-muted mb-2">Valor Proposto</p>
+                  <div class="display-6 text-cnjp fw-bold">R$ 16.500</div>
+                  <ul class="small mt-3 mb-0">
+                    <li>Perícia e múltiplas audiências</li>
+                    <li>Gestão probatória</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="py-5">
+    <div class="container">
+      <div class="row mb-4">
+        <div class="col-lg-8">
+          <h2 class="h3 text-cnjp"><i class="bi bi-question-circle me-2"></i>Perguntas Frequentes</h2>
+          <p class="text-muted">Dúvidas comuns sobre o funcionamento e os benefícios da arbitragem.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-8">
+          <div class="accordion" id="acc-faq">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="fq1"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fa1">A sentença arbitral tem força de decisão judicial?</button></h2>
+              <div id="fa1" class="accordion-collapse collapse show" data-bs-parent="#acc-faq">
+                <div class="accordion-body">Sim. A sentença arbitral possui <strong>força de título executivo judicial</strong>, produzindo os mesmos efeitos de uma decisão do Judiciário, nos termos da legislação aplicável.</div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="fq2"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fa2">Como é garantida a confidencialidade?</button></h2>
+              <div id="fa2" class="accordion-collapse collapse" data-bs-parent="#acc-faq">
+                <div class="accordion-body">Todos os procedimentos seguem <strong>regras de sigilo</strong>, com controles de acesso, políticas de proteção de dados e comunicação segura entre as partes envolvidas.</div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="fq3"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fa3">É possível personalizar o escopo e os valores?</button></h2>
+              <div id="fa3" class="accordion-collapse collapse" data-bs-parent="#acc-faq">
+                <div class="accordion-body">Sim. Adequamos <strong>escopo, SLAs e condições comerciais</strong> conforme a realidade de cada empreendimento e o volume de contratos.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card shadow-soft border-0">
+            <div class="card-body">
+              <h6 class="text-cnjp"><i class="bi bi-lightbulb me-2"></i>Dica Rápida</h6>
+              <p class="small text-muted mb-2">Para extrair o máximo da mediação, inclua <strong>cláusula compromissória</strong> nas minutas e comunique o fluxo aos clientes desde o início.</p>
+              <a class="btn btn-cnjp btn-sm" href="#contato"><i class="bi bi-chat-dots me-1"></i>Fale com a CNJP</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contato -->
+  <section id="contato" class="py-5 bg-light">
+    <div class="container">
+      <div class="row mb-4">
+        <div class="col-lg-8">
+          <h2 class="h3 text-cnjp"><i class="bi bi-envelope-paper me-2"></i>Contato</h2>
+          <p class="text-muted">Solicite uma reunião, proposta personalizada ou demonstração de relatórios.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-7">
+          <form class="card shadow-soft border-0">
+            <div class="card-body p-4">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Nome</label>
+                  <input type="text" class="form-control" placeholder="Seu nome">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Empresa</label>
+                  <input type="text" class="form-control" placeholder="Nome da construtora">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">E-mail</label>
+                  <input type="email" class="form-control" placeholder="seu@email.com">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Telefone</label>
+                  <input type="tel" class="form-control" placeholder="(xx) xxxxx-xxxx">
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Mensagem</label>
+                  <textarea class="form-control" rows="4" placeholder="Conte-nos sobre sua necessidade"></textarea>
+                </div>
+                <div class="col-12 d-flex align-items-center gap-2">
+                  <input class="form-check-input" type="checkbox" id="lgpd">
+                  <label for="lgpd" class="form-check-label small">Concordo com o tratamento de dados para contato (LGPD).</label>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <small class="text-muted">Responderemos em até 1 dia útil.</small>
+              <button type="button" class="btn btn-cnjp" onclick="cnjpToast()"><i class="bi bi-send me-1"></i>Enviar</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-lg-5">
+          <div class="card shadow-soft border-0">
+            <div class="card-body">
+              <h6 class="text-cnjp mb-3">Informações</h6>
+              <ul class="list-unstyled mb-3">
+                <li class="mb-2"><i class="bi bi-globe-americas me-2 text-cnjp"></i><a href="https://www.cnjp-jus.com.br" target="_blank" rel="noopener">www.cnjp-jus.com.br</a></li>
+                <li class="mb-2"><i class="bi bi-telephone me-2 text-cnjp"></i>Telefone/WhatsApp: <a href="https://wa.me/5511947573311" target="_blank" rel="noopener">(11) 94757-3311</a></li>
+                <li class="mb-2"><i class="bi bi-envelope me-2 text-cnjp"></i><a href="mailto:contato@cnjp-jus.com.br">contato@cnjp-jus.com.br</a></li>
+                <li class="mb-2"><i class="bi bi-person-badge me-2 text-cnjp"></i>Responsável: <strong>Francielen Bernardo da Silva</strong></li>
+              </ul>
+              <div class="alert alert-secondary d-flex align-items-start" role="alert">
+                <i class="bi bi-shield-lock me-2 fs-5"></i>
+                <div class="small">Os dados enviados por este formulário são utilizados exclusivamente para retorno do contato.</div>
+              </div>
+              <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#modalProposta"><i class="bi bi-filetype-pdf me-1"></i>Baixar Proposta em PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="py-4 border-top">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <div class="small">© <span id="year"></span> CNJP – Câmara Nacional de Justiça Privada. Todos os direitos reservados.</div>
+      <div class="small">Tema: Azul corporativo • <a href="#top" class="text-decoration-none">Voltar ao topo</a></div>
+    </div>
+  </footer>
+
+  <!-- Offcanvas Contato Rápido -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="contatoCanvas" aria-labelledby="contatoCanvasLabel">
+    <div class="offcanvas-header">
+      <h5 id="contatoCanvasLabel" class="text-cnjp"><i class="bi bi-chat-dots me-2"></i>Contato Rápido</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <p class="small text-muted">Escolha um canal:</p>
+      <div class="d-grid gap-2">
+        <a class="btn btn-cnjp" href="https://wa.me/5511947573311" target="_blank" rel="noopener"><i class="bi bi-whatsapp me-1"></i>WhatsApp</a>
+        <a class="btn btn-outline-primary" href="mailto:contato@cnjp-jus.com.br"><i class="bi bi-envelope me-1"></i>E-mail</a>
+        <a class="btn btn-outline-secondary" href="https://www.cnjp-jus.com.br" target="_blank" rel="noopener"><i class="bi bi-globe2 me-1"></i>Site</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Download -->
+  <div class="modal fade" id="modalProposta" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-cnjp"><i class="bi bi-file-earmark-text me-2"></i>Proposta em PDF</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-3">Você pode baixar a versão em PDF da proposta para envio à construtora.</p>
+          <a class="btn btn-cnjp w-100" href="Proposta_CNJP.pdf" download><i class="bi bi-download me-1"></i>Baixar PDF</a>
+          <p class="small text-muted mt-3 mb-0">Caso deseje, personalizamos com logotipo, cores e capa.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+    <div id="toastCnjp" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body"><i class="bi bi-check-circle me-2"></i>Mensagem enviada! Em breve entraremos em contato.</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Atualiza ano do rodapé
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Toast de envio fictício
+    function cnjpToast(){
+      const el = document.getElementById('toastCnjp');
+      const t = new bootstrap.Toast(el);
+      t.show();
+    }
+  </script>
+</body>
+</html>
