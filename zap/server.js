@@ -25,7 +25,7 @@ function saveClients(clients) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(clients, null, 2));
 }
 
-// Webhook para WhatsApp
+// Webhook para WhatsApp (recebendo mensagens)
 app.post("/webhook", async (req, res) => {
   const data = req.body;
   console.log("Webhook recebido:", data);
@@ -37,13 +37,28 @@ app.post("/webhook", async (req, res) => {
     const text = msg.text?.body || "";
     await handleMessage(text, phone, "Bot");
   }
+
   res.sendStatus(200);
 });
 
-// Verificação do webhook
+// Verificação do webhook (GET) — necessário para Meta
 app.get("/webhook", (req, res) => {
+  const verify_token = process.env.WHATSAPP_VERIFY_TOKEN || "zapcrm123"; // coloque o mesmo token da Meta
+
+  const mode = req.query["hub.mode"];
+  const token = req.query["hub.verify_token"];
   const challenge = req.query["hub.challenge"];
-  res.send(challenge);
+
+  if (mode && token) {
+    if (mode === "subscribe" && token === verify_token) {
+      console.log("WEBHOOK_VERIFIED");
+      res.status(200).send(challenge);
+    } else {
+      res.sendStatus(403);
+    }
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 // API painel
