@@ -29,7 +29,8 @@ const payload = {
 (async () => {
   try {
     const res = await axios.post(WEBHOOK_URL, payload);
-    console.log("Webhook recebido:", JSON.stringify(data, null, 2));
+    console.log("Webhook de teste enviado. Status:", res.status);
+    console.log("Resposta do servidor:", res.data);
   } catch (err) {
     console.error("Erro ao enviar webhook de teste:", err.message);
   }
