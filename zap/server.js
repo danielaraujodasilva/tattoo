@@ -25,14 +25,16 @@ function saveClients(clients) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(clients, null, 2));
 }
 
-// Webhook WhatsApp (recebe mensagens)
+// Webhook POST
 app.post("/webhook", async (req, res) => {
   const data = req.body;
+  console.log("Webhook payload recebido:", JSON.stringify(data, null, 2));
 
   if (data.entry && Array.isArray(data.entry)) {
     for (const entry of data.entry) {
       for (const change of entry.changes) {
         const value = change.value;
+        const phone_number_id = value.metadata?.phone_number_id; // ID correto
         const messages = value.messages || [];
         const contactName = value.contacts?.[0]?.profile?.name || "Desconhecido";
 
@@ -42,7 +44,7 @@ app.post("/webhook", async (req, res) => {
           const hora = new Date().toLocaleTimeString();
           console.log(`[${hora}] Mensagem recebida de ${contactName} (${phone}): "${text}"`);
 
-          await handleMessage(text, phone, "Bot"); // Phone Number ID agora fixo no whatsapp.js
+          await handleMessage(text, phone, "Bot", phone_number_id);
           io.emit("newMessage", { phone, message: text });
         }
       }
@@ -52,7 +54,7 @@ app.post("/webhook", async (req, res) => {
   res.sendStatus(200);
 });
 
-// Verificação do webhook (GET)
+// Webhook GET
 app.get("/webhook", (req, res) => {
   const verify_token = process.env.WHATSAPP_VERIFY_TOKEN || "zapcrm123";
   const mode = req.query["hub.mode"];
@@ -78,8 +80,8 @@ app.get("/api/clients", (req, res) => {
 
 app.post("/api/sendMessage", async (req, res) => {
   const { phone, message } = req.body;
-  await handleMessage(message, phone, "Daniel");
-  await sendMessage(phone, message); // ID fixo no whatsapp.js
+  await handleMessage(message, phone, "Daniel", process.env.WHATSAPP_PHONE_ID);
+  await sendMessage(phone, message, process.env.WHATSAPP_PHONE_ID);
   io.emit("newMessage", { phone, message });
   res.json({ success: true });
 });
@@ -92,7 +94,7 @@ app.post("/api/endFlow", async (req, res) => {
 
   client.status = "Atendido";
   client.step = 0;
-  if (notifyClient) await sendMessage(phone, "Sua conversa foi encerrada. Qualquer dúvida, estamos à disposição!");
+  if (notifyClient) await sendMessage(phone, "Sua conversa foi encerrada. Qualquer dúvida, estamos à disposição!", process.env.WHATSAPP_PHONE_ID);
   saveClients(clients);
   io.emit("newMessage", { phone, message: "Fluxo encerrado" });
   res.json({ success: true });
