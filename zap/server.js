@@ -78,7 +78,7 @@ app.get("/api/clients", (req, res) => {
   res.json(loadClients());
 });
 
-app.post("/api/sendMessage", async (req, res) => {
+app.post("/api/sendMessage", async (req, res) => { 
   const { phone, message } = req.body;
   await handleMessage(message, phone, "Daniel", process.env.WHATSAPP_PHONE_ID);
   await sendMessage(phone, message, process.env.WHATSAPP_PHONE_ID);

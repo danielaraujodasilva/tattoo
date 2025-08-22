@@ -1,7 +1,7 @@
 require("dotenv").config();
 const axios = require("axios");
 
-async function enviarMensagemTeste() {
+async function enviarMensagemTeste() { 
   const phone_number_id = process.env.WHATSAPP_PHONE_ID;
   const token = process.env.WHATSAPP_TOKEN;
   const numeroDestino = "5511947573311"; // Coloque aqui o número que quer testar (formato E.164)
