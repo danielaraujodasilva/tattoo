@@ -1,9 +1,9 @@
 const axios = require("axios");
 require("dotenv").config();
 
-async function sendMessage(phone, text) {
+async function sendMessage(phone, text, phone_number_id = process.env.WHATSAPP_PHONE_ID) {
   try {
-    const url = `https://graph.facebook.com/v17.0/${process.env.WHATSAPP_PHONE_ID}/messages`;
+    const url = `https://graph.facebook.com/v17.0/${phone_number_id}/messages`;
     const data = {
       messaging_product: "whatsapp",
       to: phone,
@@ -18,9 +18,9 @@ async function sendMessage(phone, text) {
   }
 }
 
-async function sendButtons(phone, text, buttons) {
+async function sendButtons(phone, text, buttons, phone_number_id = process.env.WHATSAPP_PHONE_ID) {
   try {
-    const url = `https://graph.facebook.com/v17.0/${process.env.WHATSAPP_PHONE_ID}/messages`;
+    const url = `https://graph.facebook.com/v17.0/${phone_number_id}/messages`;
     const data = {
       messaging_product: "whatsapp",
       to: phone,

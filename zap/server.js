@@ -28,28 +28,26 @@ function saveClients(clients) {
 // Webhook para WhatsApp (recebendo mensagens)
 app.post("/webhook", async (req, res) => {
   const data = req.body;
-  console.log("Webhook recebido:", JSON.stringify(data, null, 2)); // log completo
 
-  if (
-    data.entry &&
-    Array.isArray(data.entry) &&
-    data.entry.length > 0
-  ) {
-    const changes = data.entry[0].changes;
-    if (Array.isArray(changes) && changes.length > 0) {
-      const value = changes[0].value;
-      const messages = value.messages;
+  if (data.entry && Array.isArray(data.entry)) {
+    data.entry.forEach(entry => {
+      entry.changes.forEach(async change => {
+        const value = change.value;
+        if (value.messages && value.messages.length > 0) {
+          for (const msg of value.messages) {
+            const phone = msg.from;
+            const text = msg.text?.body || "";
+            const contactName = value.contacts?.[0]?.profile?.name || "Desconhecido";
+            const hora = new Date().toLocaleTimeString();
+            console.log(`[${hora}] Mensagem recebida de ${contactName} (${phone}): "${text}"`);
 
-      if (Array.isArray(messages) && messages.length > 0) {
-        for (const msg of messages) {
-          const phone = msg.from;
-          const text = msg.text?.body || "";
-          console.log(`Mensagem recebida de ${phone}: ${text}`);
-          await handleMessage(text, phone, "Bot");
-          io.emit("newMessage", { phone, message: text });
+            // Passa o phone_number_id para enviar respostas
+            await handleMessage(text, phone, "Bot", value.metadata.phone_number_id);
+            io.emit("newMessage", { phone, message: text });
+          }
         }
-      }
-    }
+      });
+    });
   }
 
   res.sendStatus(200);
@@ -57,7 +55,7 @@ app.post("/webhook", async (req, res) => {
 
 // Verificação do webhook (GET) — necessário para Meta
 app.get("/webhook", (req, res) => {
-  const verify_token = process.env.WHATSAPP_VERIFY_TOKEN || "zapcrm123"; // token da Meta
+  const verify_token = process.env.WHATSAPP_VERIFY_TOKEN || "zapcrm123";
 
   const mode = req.query["hub.mode"];
   const token = req.query["hub.verify_token"];
@@ -81,9 +79,9 @@ app.get("/api/clients", (req, res) => {
 });
 
 app.post("/api/sendMessage", async (req, res) => {
-  const { phone, message } = req.body;
-  await handleMessage(message, phone, "Daniel");
-  await sendMessage(phone, message);
+  const { phone, message, phone_number_id } = req.body;
+  await handleMessage(message, phone, "Daniel", phone_number_id);
+  await sendMessage(phone, message, phone_number_id);
   io.emit("newMessage", { phone, message });
   res.json({ success: true });
 });
