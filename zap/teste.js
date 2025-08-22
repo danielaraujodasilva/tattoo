@@ -3,7 +3,7 @@ const express = require("express");
 const axios = require("axios");
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: "1mb" })); // aumenta limite caso venha JSON grande
 
 const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_ID;
 const TOKEN = process.env.WHATSAPP_TOKEN;
@@ -52,44 +52,50 @@ async function fluxoCliente(numeroDestino, mensagemRecebida) {
   }
 }
 
-// Webhook POST robusto
+// Webhook POST ultra-verboso
 app.post("/webhook", async (req, res) => {
-  console.log("[LOG] POST recebido no webhook:", JSON.stringify(req.body, null, 2));
+  console.log("[LOG] === POST recebido no webhook ===");
+  console.log("[LOG] Body completo recebido:", JSON.stringify(req.body, null, 2));
 
   try {
     const body = req.body;
 
-    // Checa se é do tipo WhatsApp
+    // Confere se é do WhatsApp Business
     if (body.object !== "whatsapp_business_account") {
-      console.log("[LOG] Objeto recebido não é WhatsApp. Ignorando.");
+      console.log("[LOG] Objeto não é WhatsApp Business. Ignorando.");
       return res.sendStatus(200);
     }
 
-    // Pega mensagens do JSON oficial
-    const changes = body.entry?.[0]?.changes || [];
-    if (!changes.length) {
-      console.log("[LOG] Nenhuma mudança detectada");
-      return res.sendStatus(200);
-    }
+    // Mostra todos os entrys
+    const entries = body.entry || [];
+    console.log(`[LOG] Total de entrys: ${entries.length}`);
 
-    for (const change of changes) {
-      const messages = change.value?.messages || [];
-      if (!messages.length) {
-        console.log("[LOG] Nenhuma mensagem encontrada nesse change");
-        continue;
-      }
+    for (const [i, entry] of entries.entries()) {
+      console.log(`[LOG] Entry #${i}:`, JSON.stringify(entry, null, 2));
 
-      for (const message of messages) {
-        const numeroCliente = message.from;
-        const textoMensagem = message.text?.body || "";
+      const changes = entry.changes || [];
+      console.log(`[LOG] Total de changes no entry #${i}: ${changes.length}`);
 
-        console.log("[LOG] Número do cliente:", numeroCliente);
-        console.log("[LOG] Texto da mensagem:", textoMensagem);
+      for (const [j, change] of changes.entries()) {
+        console.log(`[LOG] Change #${j}:`, JSON.stringify(change, null, 2));
 
-        if (textoMensagem) {
-          await fluxoCliente(numeroCliente, textoMensagem);
-        } else {
-          console.log("[LOG] Mensagem recebida sem texto. Ignorando.");
+        const messages = change.value?.messages || [];
+        console.log(`[LOG] Total de mensagens no change #${j}: ${messages.length}`);
+
+        for (const [k, message] of messages.entries()) {
+          console.log(`[LOG] Mensagem #${k}:`, JSON.stringify(message, null, 2));
+
+          const numeroCliente = message.from || "desconhecido";
+          const textoMensagem = message.text?.body || "";
+
+          console.log("[LOG] Número do cliente:", numeroCliente);
+          console.log("[LOG] Texto da mensagem:", textoMensagem);
+
+          if (textoMensagem) {
+            await fluxoCliente(numeroCliente, textoMensagem);
+          } else {
+            console.log("[LOG] Mensagem sem texto. Ignorando.");
+          }
         }
       }
     }
