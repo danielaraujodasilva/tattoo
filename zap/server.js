@@ -25,13 +25,13 @@ function saveClients(clients) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(clients, null, 2));
 }
 
-// Webhook para WhatsApp (recebendo mensagens)
+// ------------------- Webhook WhatsApp -------------------
 app.post("/webhook", async (req, res) => {
   const data = req.body;
 
   if (data.entry && Array.isArray(data.entry)) {
-    data.entry.forEach(entry => {
-      entry.changes.forEach(async change => {
+    for (const entry of data.entry) {
+      for (const change of entry.changes) {
         const value = change.value;
         if (value.messages && value.messages.length > 0) {
           for (const msg of value.messages) {
@@ -46,14 +46,14 @@ app.post("/webhook", async (req, res) => {
             io.emit("newMessage", { phone, message: text });
           }
         }
-      });
-    });
+      }
+    }
   }
 
   res.sendStatus(200);
 });
 
-// Verificação do webhook (GET) — necessário para Meta
+// ------------------- Verificação do webhook -------------------
 app.get("/webhook", (req, res) => {
   const verify_token = process.env.WHATSAPP_VERIFY_TOKEN || "zapcrm123";
 
@@ -73,7 +73,7 @@ app.get("/webhook", (req, res) => {
   }
 });
 
-// API painel
+// ------------------- API Painel -------------------
 app.get("/api/clients", (req, res) => {
   res.json(loadClients());
 });
@@ -87,18 +87,19 @@ app.post("/api/sendMessage", async (req, res) => {
 });
 
 app.post("/api/endFlow", async (req, res) => {
-  const { phone, notifyClient } = req.body;
+  const { phone, notifyClient, phone_number_id } = req.body;
   const clients = loadClients();
   const client = clients.find(c => c.phone === phone);
   if (!client) return res.status(404).json({ error: "Cliente não encontrado" });
 
   client.status = "Atendido";
   client.step = 0;
-  if (notifyClient) await sendMessage(phone, "Sua conversa foi encerrada. Qualquer dúvida, estamos à disposição!");
+  if (notifyClient) await sendMessage(phone, "Sua conversa foi encerrada. Qualquer dúvida, estamos à disposição!", phone_number_id);
   saveClients(clients);
   io.emit("newMessage", { phone, message: "Fluxo encerrado" });
   res.json({ success: true });
 });
 
+// ------------------- Inicia servidor -------------------
 const port = process.env.PORT || 3017;
 server.listen(port, () => console.log(`Servidor rodando na porta ${port}`));
