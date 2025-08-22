@@ -7,7 +7,7 @@ app.use(express.json());
 
 const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_ID;
 const TOKEN = process.env.WHATSAPP_TOKEN;
-const VERIFY_TOKEN = process.env.WHATSAPP_VERIFY_TOKEN || "zapcrm123";
+const VERIFY_TOKEN = process.env.WHATSAPP_VERIFY_TOKEN;
 
 // Função para enviar mensagem
 async function enviarMensagem(numeroDestino, mensagem) {
@@ -35,7 +35,7 @@ async function enviarMensagem(numeroDestino, mensagem) {
 async function fluxoCliente(numeroDestino, mensagemRecebida) {
   console.log("[LOG] Iniciando fluxoCliente para:", numeroDestino, "com mensagem:", mensagemRecebida);
 
-  mensagemRecebida = (mensagemRecebida || "").toLowerCase();
+  mensagemRecebida = mensagemRecebida.toLowerCase();
 
   if (mensagemRecebida.includes("oi") || mensagemRecebida.includes("olá")) {
     await enviarMensagem(numeroDestino, 
@@ -52,38 +52,45 @@ async function fluxoCliente(numeroDestino, mensagemRecebida) {
   }
 }
 
-// Webhook POST ultra-detalhado
+// Webhook POST robusto
 app.post("/webhook", async (req, res) => {
-  console.log("[LOG] === RECEBIDO POST NO WEBHOOK ===");
-  console.log("[LOG] Body completo:", JSON.stringify(req.body, null, 2));
+  console.log("[LOG] POST recebido no webhook:", JSON.stringify(req.body, null, 2));
 
   try {
     const body = req.body;
 
-    // Detecta mensagens dentro do JSON, mesmo se o formato mudar
-    const messages =
-      body.entry?.[0]?.changes?.[0]?.value?.messages ||
-      body.messages ||
-      [];
-
-    console.log("[LOG] Mensagens detectadas:", messages.length);
-
-    if (!messages.length) {
-      console.log("[LOG] Nenhuma mensagem válida encontrada");
+    // Checa se é do tipo WhatsApp
+    if (body.object !== "whatsapp_business_account") {
+      console.log("[LOG] Objeto recebido não é WhatsApp. Ignorando.");
       return res.sendStatus(200);
     }
 
-    for (const message of messages) {
-      const numeroCliente = message.from || message.sender?.id || "desconhecido";
-      const textoMensagem = message.text?.body || message.message?.text || "";
+    // Pega mensagens do JSON oficial
+    const changes = body.entry?.[0]?.changes || [];
+    if (!changes.length) {
+      console.log("[LOG] Nenhuma mudança detectada");
+      return res.sendStatus(200);
+    }
 
-      console.log("[LOG] Número do cliente:", numeroCliente);
-      console.log("[LOG] Texto da mensagem:", textoMensagem);
+    for (const change of changes) {
+      const messages = change.value?.messages || [];
+      if (!messages.length) {
+        console.log("[LOG] Nenhuma mensagem encontrada nesse change");
+        continue;
+      }
 
-      if (textoMensagem) {
-        await fluxoCliente(numeroCliente, textoMensagem);
-      } else {
-        console.log("[LOG] Mensagem sem texto detectada, ignorando...");
+      for (const message of messages) {
+        const numeroCliente = message.from;
+        const textoMensagem = message.text?.body || "";
+
+        console.log("[LOG] Número do cliente:", numeroCliente);
+        console.log("[LOG] Texto da mensagem:", textoMensagem);
+
+        if (textoMensagem) {
+          await fluxoCliente(numeroCliente, textoMensagem);
+        } else {
+          console.log("[LOG] Mensagem recebida sem texto. Ignorando.");
+        }
       }
     }
 
@@ -106,14 +113,11 @@ app.get("/webhook", (req, res) => {
   if (mode && token) {
     if (mode === "subscribe" && token === VERIFY_TOKEN) {
       console.log("[LOG] Webhook verificado com sucesso!");
-      return res.status(200).send(challenge);
+      res.status(200).send(challenge);
     } else {
       console.log("[LOG] Verificação falhou");
-      return res.sendStatus(403);
+      res.sendStatus(403);
     }
-  } else {
-    console.log("[LOG] GET sem parâmetros de verificação");
-    return res.sendStatus(400);
   }
 });
 
