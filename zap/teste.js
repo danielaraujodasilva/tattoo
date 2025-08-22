@@ -60,11 +60,14 @@ async function fluxoCliente(numeroDestino, mensagemRecebida) {
 
 // Webhook para receber mensagens
 app.post("/webhook", async (req, res) => {
+  console.log("Recebi algo no webhook:", JSON.stringify(req.body, null, 2));
+
   try {
     const body = req.body;
+    const messages = body.entry?.[0]?.changes?.[0]?.value?.messages;
 
-    if (body.entry && body.entry[0].changes && body.entry[0].changes[0].value.messages) {
-      const message = body.entry[0].changes[0].value.messages[0];
+    if (messages?.length) {
+      const message = messages[0];
       const numeroCliente = message.from;
       const textoMensagem = message.text?.body || "";
 
