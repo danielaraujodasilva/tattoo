@@ -71,7 +71,7 @@ app.get("/webhook", (req, res) => {
       res.sendStatus(403);
     }
   } else {
-    res.sendStatus(400);
+    res.sendStatus(400); 
   }
 });
 
