@@ -7,7 +7,7 @@ async function enviarMensagemTeste() {
   const numeroDestino = "5511947573311"; // Coloque aqui o número que quer testar (formato E.164)
   const mensagem = "Mensagem de teste do bot! ✅";
 
-  const url = `https://graph.facebook.com/v17.0/${phone_number_id}/messages`;
+  const url = `https://graph.facebook.com/v17.0/${phone_number_id}/messages`; 
 
   try {
     const response = await axios.post(
