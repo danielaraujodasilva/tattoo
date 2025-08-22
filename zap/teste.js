@@ -63,7 +63,6 @@ app.post("/webhook", async (req, res) => {
   try {
     const body = req.body;
 
-    // Certifique-se de que o webhook trouxe uma mensagem
     if (body.entry && body.entry[0].changes && body.entry[0].changes[0].value.messages) {
       const message = body.entry[0].changes[0].value.messages[0];
       const numeroCliente = message.from;
@@ -71,11 +70,10 @@ app.post("/webhook", async (req, res) => {
 
       console.log("Mensagem recebida de", numeroCliente, ":", textoMensagem);
 
-      // Chama o fluxo do cliente
       await fluxoCliente(numeroCliente, textoMensagem);
     }
 
-    res.sendStatus(200); // responde ao webhook
+    res.sendStatus(200);
   } catch (err) {
     console.error("Erro no webhook:", err);
     res.sendStatus(500);
@@ -100,4 +98,4 @@ app.get("/webhook", (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
+app.listen(3018, () => console.log("Servidor rodando na porta 3018"));
